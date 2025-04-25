@@ -31,10 +31,10 @@ namespace Game {
         MODULEINFO info;
         K32GetModuleInformation(GetCurrentProcess(), hModule, &info, sizeof(info));
         std::ptrdiff_t offsetMax = info.SizeOfImage - S;
-        for (std::ptrdiff_t offset = 0; offset <= offsetMax; offset++) {
+        for (std::ptrdiff_t offset = 0; offset <= offsetMax; offset++)
             if (std::memcmp(reinterpret_cast<decltype(data)>(pModule + offset), data, S) == 0)
                 return offset;
-        }
+        // not found
         return 0;
     }
 
