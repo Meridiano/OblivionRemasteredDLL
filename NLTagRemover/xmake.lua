@@ -6,7 +6,7 @@ includes("lib/commonlibobr")
 
 -- set project
 set_project("NLTagRemover")
-set_version("1.0.0")
+set_version("1.1.0")
 set_license("MIT")
 
 -- set defaults
