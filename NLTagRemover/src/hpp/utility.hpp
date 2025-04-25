@@ -21,12 +21,12 @@ namespace Utility {
     }
 
     void SetupSpdlog(std::string name, fs::path path, std::string pattern) {
-        spdlog::level::level_enum logLevel = spdlog::level::info;
         auto logger = spdlog::basic_logger_mt(name, path.string(), true);
+        auto logLevel = spdlog::level::info;
         spdlog::set_default_logger(logger);
-        spdlog::set_level(logLevel);
-        spdlog::flush_on(logLevel);
-        spdlog::set_pattern(pattern);
+        logger->set_pattern(pattern);
+        logger->set_level(logLevel);
+        logger->flush_on(logLevel);
         logReady = true;
     }
 

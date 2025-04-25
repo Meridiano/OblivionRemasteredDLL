@@ -21,8 +21,6 @@ void Startup() {
 }
 
 OB64_DLL(reason) {
-    if (reason == 1) {
-        std::thread(Startup).detach();
-    }
+    if (reason == 1) std::thread(Startup).detach();
     return 1;
 }
