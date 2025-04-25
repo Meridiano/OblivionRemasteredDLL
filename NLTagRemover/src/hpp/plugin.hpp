@@ -16,12 +16,6 @@ namespace Plugin {
         return (version.has_value() ? version.value().string(".") : "Unknown");
     } ();
 
-    static const auto iniPath = []() {
-        fs::path result = pluginPath;
-        result.replace_extension(".ini");
-        return result;
-    } ();
-
     static const auto logPath = []() {
         fs::path result = pluginPath;
         result.replace_extension(".log");
