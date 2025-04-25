@@ -2,11 +2,11 @@
 set_xmakever("2.9.4")
 
 -- include local folders
-includes("lib/commonlibobr")
+includes("lib/commonlibob64")
 
 -- set project
 set_project("NLTagRemover")
-set_version("1.1.0")
+set_version("1.2.0")
 set_license("MIT")
 
 -- set defaults
@@ -27,12 +27,13 @@ add_rules("plugin.vsxmake.autoupdate")
 -- setup targets
 target("NLTagRemover")
     -- bind local dependencies
-    add_deps("commonlibobr")
+    add_deps("commonlibob64")
 
-    -- add commonlibobr plugin
-    add_rules("commonlibobr.plugin", {
+    -- add commonlibob64 plugin
+    add_rules("commonlibob64.plugin", {
         name = "NLTagRemover",
-        author = "Meridiano"
+        author = "Meridiano",
+        description = "Oblivion Remastered ASI Plugin"
     })
 
     -- add source files
@@ -40,11 +41,3 @@ target("NLTagRemover")
     add_headerfiles("src/**.h")
     add_includedirs("src")
     set_pcxxheader("src/pch.h")
-
-    -- curl downloader
-    local function curl(url, path)
-        return format('curl -k "%s" -o "%s" --create-dirs', url, path)
-    end
-    on_load(function (target)
-        os.run(curl("https://raw.githubusercontent.com/metayeti/mINI/refs/heads/master/src/mini/ini.h", "lib/mini/ini.h"))
-    end)

@@ -6,8 +6,10 @@
 using namespace std::literals;
 namespace fs = std::filesystem;
 
-#define OBRE_DLL(REASON) extern "C" int __stdcall DllMain(void* /* module */, unsigned long REASON, void* /* reserved */)
-#include <windows.h>
-#include "../lib/mini/ini.h"
 #include "spdlog/sinks/basic_file_sink.h"
-#define LOG(FMT, ...) spdlog::info(std::format(FMT, __VA_ARGS__))
+#include <windows.h>
+#include <psapi.h>
+#pragma comment(lib, "psapi.lib")
+
+#define OB64_DLL(REASON) extern "C" int __stdcall DllMain(void* /* module */, unsigned long REASON, void* /* reserved */)
+#define LOG(FMT, ...) if (Utility::logReady) spdlog::info(std::format(FMT, __VA_ARGS__))
