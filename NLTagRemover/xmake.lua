@@ -6,7 +6,7 @@ includes("lib/commonlibob64")
 
 -- set project
 set_project("NLTagRemover")
-set_version("1.2.0")
+set_version("1.3.0")
 set_license("MIT")
 
 -- set defaults
@@ -33,7 +33,7 @@ target("NLTagRemover")
     add_rules("commonlibob64.plugin", {
         name = "NLTagRemover",
         author = "Meridiano",
-        description = "Oblivion Remastered ASI Plugin"
+        description = "Oblivion Remastered ASI/DLL Plugin"
     })
 
     -- add source files

@@ -20,7 +20,12 @@ void Startup() {
     LOG("Tag patch {}", RemoveNLTag() ? "applied" : "failed");
 }
 
-OB64_DLL(reason) {
-    if (reason == 1) std::thread(Startup).detach();
+OBSE_PLUGIN_LOAD(const OBSE::LoadInterface* obseInterface) {
+    if (OBSE::Init(obseInterface); obseInterface->GetReleaseIndex() > 0) Startup();
+    return true;
+}
+
+OB64_DLL(const std::uint32_t reason) {
+    if (reason == 1 && Plugin::obseWorkspace == false) std::thread(Startup).detach();
     return 1;
 }
