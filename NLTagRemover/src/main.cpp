@@ -8,24 +8,24 @@ bool RemoveNLTag() {
     auto offset = Game::ModuleOffset<count>(tagArray);
     LOG("Offset value = 0x{:X}", offset);
     if (offset == 0) return false;
-    REL::Relocation<const char*> target{ Game::ModuleAddress() + offset };
+    REL::Relocation target{ Game::moduleAddress + offset };
     REL::WriteSafeFill(target.address(), 0, count);
     return true;
 }
 
-void Startup() {
+void Startup(std::string mode) {
     Utility::SetupSpdlog(Plugin::pluginName, Plugin::logPath, "%d.%m.%Y %H:%M:%S [%t] %v");
-    LOG("{} version = {}", Plugin::pluginName, Plugin::pluginVersion);
-    LOG("Game version = {}", Game::ModuleVersion());
+    LOG("{} version = {} / {}", Plugin::pluginName, Plugin::pluginVersion, mode);
+    LOG("Game version = {}", Game::moduleVersion);
     LOG("Tag patch {}", RemoveNLTag() ? "applied" : "failed");
 }
 
-OBSE_PLUGIN_LOAD(const OBSE::LoadInterface* obseInterface) {
-    if (OBSE::Init(obseInterface); obseInterface->GetReleaseIndex() > 0) Startup();
+OBSE_PLUGIN_LOAD(const OBSE::LoadInterface* obseLoad) {
+    if (OBSE::Init(obseLoad, { false }); obseLoad->GetReleaseIndex() > 0) Startup("DLL");
     return true;
 }
 
 OB64_DLL(const std::uint32_t reason) {
-    if (reason == 1 && Plugin::obseWorkspace == false) std::thread(Startup).detach();
+    if (reason == 1 && Plugin::obseWorkspace == false) std::thread(Startup, "ASI").detach();
     return 1;
 }

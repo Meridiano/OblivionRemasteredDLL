@@ -11,5 +11,5 @@ namespace fs = std::filesystem;
 #include <psapi.h>
 #pragma comment(lib, "psapi.lib")
 
-#define OB64_DLL(REASON) extern "C" int __stdcall DllMain(void* /* module */, REASON, void* /* reserved */)
-#define LOG(FMT, ...) if (Utility::logReady) spdlog::info(std::format(FMT, __VA_ARGS__))
+#define OB64_DLL(REASON) extern "C" int __stdcall DllMain(void*, REASON, void*)
+#define LOG(...) if (Utility::logReady) spdlog::info(std::format(__VA_ARGS__))

@@ -5,11 +5,11 @@ namespace Utility {
     bool logReady = false;
     
     std::wstring GetModulePathSafe(HMODULE hModule) {
-        DWORD size = MAX_PATH;
+        std::uint32_t size = MAX_PATH;
         std::wstring buffer;
         while (true) {
             buffer.resize(size);
-            DWORD copied = GetModuleFileNameW(hModule, &buffer[0], size);
+            std::uint32_t copied = GetModuleFileNameW(hModule, &buffer[0], size);
             if (copied == 0) {
                 return L"";
             } else if (copied < size - 1) {
@@ -31,12 +31,12 @@ namespace Utility {
     }
 
     bool PathEndsWith(fs::path full, fs::path ends) {
-        auto ReversedPath = [](fs::path p) {
+        auto ReversedView = [](fs::path p) {
             std::vector<fs::path> v = { p.begin(), p.end() };
             return (v | std::views::reverse);
         };
-        auto fullView = ReversedPath(full);
-        auto endsView = ReversedPath(ends);
+        auto fullView = ReversedView(full);
+        auto endsView = ReversedView(ends);
         return std::ranges::equal(endsView, fullView);
     }
 

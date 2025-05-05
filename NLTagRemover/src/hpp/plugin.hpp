@@ -5,11 +5,11 @@ namespace Plugin {
 
     extern "C" OBSE::PluginVersionData OBSEPlugin_Version;
 
-    static const std::string pluginName = "NLTagRemover";
+    static const auto pluginName = std::string(OBSEPlugin_Version.pluginName);
     
     static const auto pluginPath = []() {
         HMODULE hModule = nullptr;
-        GetModuleHandleExA(0x2 + 0x4, &pluginName[0], &hModule);
+        GetModuleHandleExA(0x2 + 0x4, LPCSTR(&pluginName), &hModule);
         return fs::path(Utility::GetModulePathSafe(hModule));
     } ();
 

@@ -6,7 +6,7 @@ includes("lib/commonlibob64")
 
 -- set project
 set_project("NLTagRemover")
-set_version("1.3.0")
+set_version("1.3.1")
 set_license("MIT")
 
 -- set defaults

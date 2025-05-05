@@ -3,36 +3,25 @@
 
 namespace Game {
 
-    std::wstring ModulePath() {
-        return Utility::GetModulePathSafe(NULL);
-    }
+    static const auto modulePath = Utility::GetModulePathSafe(NULL);
 
-    std::string ModuleVersion() {
-        auto filePath = ModulePath();
-        auto version = REL::GetFileVersion(filePath);
+    static const auto moduleHandle = GetModuleHandleW(modulePath.data());
+
+    static const auto moduleAddress = reinterpret_cast<std::uintptr_t>(moduleHandle);
+
+    static const auto moduleVersion = []() {
+        auto version = REL::GetFileVersion(modulePath);
         return (version.has_value() ? version.value().string(".") : "Unknown");
-    }
+    } ();
 
-    HMODULE ModuleHandle() {
-        auto filePath = ModulePath();
-        return GetModuleHandleW(filePath.data());
-    }
-
-    std::uintptr_t ModuleAddress() {
-        auto handle = ModuleHandle();
-        return reinterpret_cast<std::uintptr_t>(handle);
-    }
-
-    template<unsigned long long S>
-    std::ptrdiff_t ModuleOffset(std::array<std::uint8_t, S> bytes) {
+    template<std::size_t size>
+    std::ptrdiff_t ModuleOffset(std::array<std::uint8_t, size> bytes) {
         auto data = bytes.data();
-        auto hModule = ModuleHandle();
-        auto pModule = ModuleAddress();
         MODULEINFO info;
-        K32GetModuleInformation(GetCurrentProcess(), hModule, &info, sizeof(info));
-        std::ptrdiff_t offsetMax = info.SizeOfImage - S;
+        K32GetModuleInformation(GetCurrentProcess(), moduleHandle, &info, sizeof(info));
+        std::ptrdiff_t offsetMax = info.SizeOfImage - size;
         for (std::ptrdiff_t offset = 0; offset <= offsetMax; offset++)
-            if (std::memcmp(reinterpret_cast<decltype(data)>(pModule + offset), data, S) == 0)
+            if (std::memcmp(reinterpret_cast<decltype(data)>(moduleAddress + offset), data, size) == 0)
                 return offset;
         // not found
         return 0;
