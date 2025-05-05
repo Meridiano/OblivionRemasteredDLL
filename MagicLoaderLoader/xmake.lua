@@ -6,7 +6,7 @@ includes("lib/commonlibob64")
 
 -- set project
 set_project("MagicLoaderLoader")
-set_version("1.0.0")
+set_version("1.1.0")
 set_license("MIT")
 
 -- set defaults

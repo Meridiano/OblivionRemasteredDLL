@@ -8,9 +8,10 @@
 #include <iostream>
 #undef min
 #undef max
-#pragma comment(lib, "crypt32.lib")
 #include "../lib/mini/ini.h"
 
 namespace fs = std::filesystem;
 
+#define LAUNCH_REQUIRED "Launch required, reason = {}:{}"
 #define CRITICAL(FMT, ...) OBSE::stl::report_and_fail(std::format(FMT, __VA_ARGS__))
+#define RELATIVE(P, V) (Utility::WorkingDirectory / fs::path(P)).lexically_normal(); REX::INFO("Path."#V" = {}", V.string())
