@@ -6,7 +6,7 @@ includes("lib/commonlibob64")
 
 -- set project
 set_project("MagicLoaderLoader")
-set_version("1.1.0")
+set_version("1.2.0")
 set_license("MIT")
 
 -- set defaults
@@ -30,7 +30,7 @@ target("MagicLoaderLoader")
     add_rules("commonlibob64.plugin", {
         name = "MagicLoaderLoader",
         author = "Meridiano",
-        description = "Oblivion Remastered OBSE64 Plugin"
+        description = "Oblivion Remastered DLL/ASI Plugin"
     })
 
     -- add src files

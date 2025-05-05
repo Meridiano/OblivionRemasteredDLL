@@ -5,13 +5,15 @@
 
 // custom
 #include <windows.h>
-#include <iostream>
+#include "../lib/mini/ini.h"
+#include "spdlog/sinks/basic_file_sink.h"
 #undef min
 #undef max
-#include "../lib/mini/ini.h"
 
 namespace fs = std::filesystem;
 
 #define LAUNCH_REQUIRED "Launch required, reason = {}:{}"
-#define CRITICAL(FMT, ...) OBSE::stl::report_and_fail(std::format(FMT, __VA_ARGS__))
-#define RELATIVE(P, V) (Utility::WorkingDirectory / fs::path(P)).lexically_normal(); REX::INFO("Path."#V" = {}", V.string())
+#define LOG(...) if (Utility::logReady) spdlog::info(std::format(__VA_ARGS__))
+#define OB64_DLL(REASON) extern "C" int __stdcall DllMain(void*, REASON, void*)
+#define RELATIVE(PATH) (Utility::workingDirectory / fs::path(PATH)).lexically_normal()
+#define CRITICAL(INFO) if (std::string err = INFO; true) { LOG("{}", err); throw(std::exception(err.data())); }
