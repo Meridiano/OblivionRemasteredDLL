@@ -6,7 +6,7 @@ includes("lib/commonlibob64")
 
 -- set project
 set_project("NLTagRemover")
-set_version("1.3.1")
+set_version("1.3.2")
 set_license("MIT")
 
 -- set defaults
@@ -33,7 +33,11 @@ target("NLTagRemover")
     add_rules("commonlibob64.plugin", {
         name = "NLTagRemover",
         author = "Meridiano",
-        description = "Oblivion Remastered ASI/DLL Plugin"
+        description = "Oblivion Remastered ASI/DLL Plugin",
+        options = {
+            sig_scanning = true,
+            no_struct_use = true
+        }
     })
 
     -- add source files
@@ -41,3 +45,11 @@ target("NLTagRemover")
     add_headerfiles("src/**.h")
     add_includedirs("src")
     set_pcxxheader("src/pch.h")
+
+    -- curl downloader
+    local function curl(url, path)
+        return format('curl -k "%s" -o "%s" --create-dirs', url, path)
+    end
+    on_load(function (target)
+        os.run(curl("https://raw.githubusercontent.com/badaix/aixlog/refs/heads/master/include/aixlog.hpp", "lib/badaix/aixlog.hpp"))
+    end)

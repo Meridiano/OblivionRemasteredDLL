@@ -20,13 +20,14 @@ namespace Utility {
         }
     }
 
-    void SetupSpdlog(std::string name, fs::path path, std::string pattern) {
-        auto logger = spdlog::basic_logger_mt(name, path.string(), true);
-        auto logLevel = spdlog::level::info;
-        spdlog::set_default_logger(logger);
-        logger->set_pattern(pattern);
-        logger->set_level(logLevel);
-        logger->flush_on(logLevel);
+    void SetupAixLog(fs::path path, std::string pattern) {
+        auto sinkFile = std::make_shared<AixLog::SinkFile>(
+            AixLog::Severity::info,
+            path.string(),
+            pattern
+        );
+        std::vector<AixLog::log_sink_ptr> sinks{ sinkFile };
+        AixLog::Log::init(sinks);
         logReady = true;
     }
 

@@ -28,10 +28,6 @@ namespace Plugin {
         if (pluginPath.extension() == ".dll") {
             auto parent = pluginPath.parent_path();
             if (Utility::PathEndsWith(parent, "OBSE\\Plugins")) {
-                OBSEPlugin_Version.UsesAddressLibrary(false);
-                OBSEPlugin_Version.UsesSigScanning(true);
-                OBSEPlugin_Version.IsLayoutDependent(false);
-                OBSEPlugin_Version.HasNoStructUse(true);
                 return true;
             }
         }
