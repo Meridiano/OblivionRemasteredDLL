@@ -2,11 +2,11 @@
 set_xmakever("2.9.4")
 
 -- include local folders
-includes("lib/commonlibobr")
+includes("lib/commonlibob64")
 
 -- set project
 set_project("HelloWorld")
-set_version("1.0.0")
+set_version("2.0.0")
 set_license("MIT")
 
 -- set defaults
@@ -27,12 +27,17 @@ add_rules("plugin.vsxmake.autoupdate")
 -- setup targets
 target("HelloWorld")
     -- bind local dependencies
-    add_deps("commonlibobr")
+    add_deps("commonlibob64")
 
-    -- add commonlibobr plugin
-    add_rules("commonlibobr.plugin", {
+    -- add commonlibob64 plugin
+    add_rules("commonlibob64.plugin", {
         name = "HelloWorld",
-        author = "Meridiano"
+        author = "Meridiano",
+        description = "Oblivion Remastered Hello World",
+        options = {
+            address_library = true,
+            no_struct_use = true
+        }
     })
 
     -- add source files
