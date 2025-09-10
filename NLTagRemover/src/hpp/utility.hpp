@@ -11,13 +11,15 @@ namespace Utility {
             buffer.resize(size);
             std::uint32_t copied = GetModuleFileNameW(hModule, &buffer[0], size);
             if (copied == 0) {
-                return L"";
+                buffer.clear();
+                break;
             } else if (copied < size - 1) {
                 buffer.resize(copied);
-                return buffer;
+                break;
             }
             size *= 2;
         }
+        return buffer;
     }
 
     void SetupAixLog(fs::path path, std::string pattern) {

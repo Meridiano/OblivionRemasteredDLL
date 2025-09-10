@@ -12,4 +12,4 @@ namespace fs = std::filesystem;
 #include "../lib/badaix/aixlog.hpp"
 
 #define OB64_DLL(REASON) extern "C" int __stdcall DllMain(void*, REASON, void*)
-#define AIX_LOG(...) if (Utility::logReady) LOG(INFO) << std::format(__VA_ARGS__) << "\n"
+#define AIX_LOG(...) LOG(INFO) << COND(Utility::logReady) << std::format(__VA_ARGS__) << "\n"
