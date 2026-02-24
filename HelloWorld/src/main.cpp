@@ -1,6 +1,6 @@
 void Startup() {
-    auto module = REL::Module::GetSingleton();
-    auto moduleName = module ? module->filename() : L"?";
+    auto module = REX::FModule::GetExecutingModule();
+    auto moduleName = module.GetBaseAddress() ? module.GetFileName() : "?";
 
     auto version = REL::GetFileVersion(moduleName);
     auto versionString = version.has_value() ? version.value().string(".") : "?";

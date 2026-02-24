@@ -13,7 +13,7 @@ namespace Utility {
             if (copied == 0) {
                 buffer.clear();
                 break;
-            } else if (copied < size - 1) {
+            } else if (copied < size) {
                 buffer.resize(copied);
                 break;
             }
@@ -34,13 +34,20 @@ namespace Utility {
     }
 
     bool PathEndsWith(fs::path full, fs::path ends) {
-        auto ReversedView = [](fs::path p) {
+        auto ReversedVector = [](fs::path p) {
             std::vector<fs::path> v = { p.begin(), p.end() };
-            return (v | std::views::reverse);
+            std::ranges::reverse(v);
+            return v;
         };
-        auto fullView = ReversedView(full);
-        auto endsView = ReversedView(ends);
-        return std::ranges::equal(endsView, fullView);
+        auto fullVector = ReversedVector(full);
+        auto endsVector = ReversedVector(ends);
+        return std::ranges::starts_with(fullVector, endsVector, [](const fs::path& a, const fs::path& b) {
+            const auto& as = a.wstring();
+            const auto& bs = b.wstring();
+            return std::ranges::equal(as, bs, [](wchar_t x, wchar_t y) {
+                return towlower(x) == towlower(y);
+            });
+        });
     }
 
 }

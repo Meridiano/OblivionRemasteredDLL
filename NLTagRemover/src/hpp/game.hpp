@@ -12,7 +12,7 @@ namespace Game {
     static const auto moduleVersion = []() {
         auto version = REL::GetFileVersion(modulePath);
         return (version.has_value() ? version.value().string(".") : "Unknown");
-    } ();
+    }();
 
     template<std::size_t size>
     std::ptrdiff_t ModuleOffset(std::array<std::uint8_t, size> bytes) {
